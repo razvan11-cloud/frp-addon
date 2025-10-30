@@ -1,8 +1,9 @@
 # Add-on metadata
 name: "Easy Remote Access (FRP Client)"
-version: "1.0.0"
+version: "1.0.1"
 slug: "frp_client"
 description: "Securely access your Home Assistant from anywhere using a private FRP tunnel."
+url: "https://github.com/razvan11-cloud/frp-addon"
 arch:
   - aarch64
   - amd64
@@ -15,8 +16,12 @@ boot: "auto"
 
 # Configuration options shown to the user
 options:
-  unique_id: "" # This will be the box where the user enters their key
+  server_address: ""
+  auth_token: ""
+  unique_id: ""
 
 # Schema for validating user input
 schema:
+  server_address: "str"
+  auth_token: "password"
   unique_id: "str"
