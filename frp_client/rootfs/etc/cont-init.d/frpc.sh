@@ -1,14 +1,14 @@
 #!/usr/bin/with-contenv bashio
 
-# This script runs once when the add-on starts
-
-# Get the unique ID from the user's configuration
+# Get ALL values from the user's configuration
 bashio::log.info "Reading configuration..."
+SERVER_ADDR=$(bashio::config 'server_address')
+AUTH_TOKEN=$(bashio::config 'auth_token')
 UNIQUE_ID=$(bashio::config 'unique_id')
 
-# Validate that the user actually entered something
-if [[ -z "${UNIQUE_ID}" ]]; then
-  bashio::log.fatal "The 'unique_id' is empty! Please enter the key provided by your service."
+# Validate that the user filled in all required fields
+if [[ -z "${SERVER_ADDR}" || -z "${AUTH_TOKEN}" || -z "${UNIQUE_ID}" ]]; then
+  bashio::log.fatal "Configuration is incomplete! Please fill in all fields: server_address, auth_token, and unique_id."
   bashio::exit.nok
 fi
 
@@ -16,9 +16,10 @@ fi
 CONFIG_PATH=/data/frpc.toml
 bashio::log.info "Generating frpc configuration at ${CONFIG_PATH}..."
 cat << EOF > "${CONFIG_PATH}"
-serverAddr = "YOUR_CLOUD_SERVER_IP"
+# Values are now read from the user's config
+serverAddr = "${SERVER_ADDR}"
 serverPort = 7000
-auth.token = "A_VERY_STRONG_GLOBAL_TOKEN_FOR_ALL_CLIENTS"
+auth.token = "${AUTH_TOKEN}"
 
 [[proxies]]
 name = "ha-proxy-${UNIQUE_ID}"
