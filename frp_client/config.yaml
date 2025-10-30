@@ -1,5 +1,5 @@
 name: "Easy Remote Access (FRP Client)"
-version: "1.0.1" # Bump the version
+version: "1.0.1" 
 slug: "frp_client"
 description: "Securely access your Home Assistant from anywhere using a private FRP tunnel."
 arch:
@@ -12,7 +12,7 @@ init: false
 startup: "application"
 boot: "auto"
 
-# --- NEW CONFIGURATION SECTION ---
+#CONFIGURATION SECTION 
 options:
   server_address: ""
   auth_token: ""
